@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divResultat{
+            display: flex;
+            gap: 5px;
+            align-items: end;
+            height: 200px;
+        }
+        .blokk{
+            min-height: 20px;
+            color: white;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oppgave 2 - Regjeringsalternativ</h1>
+    <!-- Input -->
+
+    <!-- Her putter jeg input-feltene i en tabell, det er egentlig ikke nødvendig, men det gir en ryddigere kode  -->
+    <table id="tableInput">
+        <tr> <!-- tr er ny rad -->
+            <th>Parti</th> <!-- th er overskrifter -->
+            <th>Prosent</th>
+        </tr>
+        <!-- Resten fylles med Javascript -->
+    </table>
+   
+
+    <button id="btnVis">Vis blokker</button>
+
+    <!-- Resultat -->
+    <div id="divResultat"></div>
+
+
+    <script>
+        // Referanser til HTML-elementer
+        const tableInput = document.querySelector('#tableInput');
+        const btnVis = document.querySelector('#btnVis');
+        const divResultat = document.querySelector('#divResultat');
+        
+        // Globale variabler (state)
+        const sosialistisk = ["Rødt", "SV", "A", "SP", "MDG"]
+        const borgerlig = ["KrF", "V", "H", "FrP"]
+        const uavhengig = ["MDG", "PIR"]
+
+        // Funksjoner
+        const lagPartiInputs = (partiliste, blokk) => {
+            // Funksjon som tar inn en partiliste og blokk, og lager parti-inputs på nettsiden
+            for (let parti of partiliste){
+                tableInput.innerHTML += `
+                <tr>
+                    <td><label for="inp${parti}">${parti}</label></td>  <!-- td er vanlig innhold -->
+                    <td><input data-blokk="${blokk}" id="inp${parti}" type="number"></td>
+                </tr>
+                `;
+            }
+        }
+
+        const tegnBlokk = (prosent, farge) => {
+            // Funksjon som tar inn prosent og farge, og tegner blokker
+            divResultat.innerHTML += `
+                <div class="blokk" style="height: ${prosent * 2}px; width: 100px; background-color: ${farge};">
+                    ${prosent}
+                </div>
+            `            
+        }
+
+        const slettBlokker = () => {
+            // Funksjon som fjerner blokker fra nettsiden
+            divResultat.innerHTML = ``;
+        }
+
+        const beregnBlokk = (side) => {
+            // Funksjon som tar inn en side (eks: "sosialistisk") og returnerer antall prosent siden har
+            const alleInputfelt = document.querySelectorAll("input"); // Henter alle inputfelt og lagrer de i en liste
+            let prosent = 0; // En variabel som skal oppdateres med verdiene fra input-feltene som hører til siden
+            for(let inp of alleInputfelt){ // Går gjennom listen med input-felt og kaller hvert input-felt for inp
+                if(inp.dataset.blokk === side){ // Hvis input-feltet har data-blokk = side:
+                    prosent += Number(inp.value); // Øk prosent med verdien fra inp-feltet
+                }
+            }
+            return prosent; // Returner prosent
+        }
+
+        // Hendelser
+        btnVis.onclick = () => {
+            slettBlokker(); // Fjerner innholdet i divResultat;
+            let sosProsent = beregnBlokk("sosialistisk"); // Beregner prosent for sosialistisk blokk
+            tegnBlokk(sosProsent, "red"); // Tegner sosialistisk blokk med rød farge
+            let borProsent = beregnBlokk("borgerlig"); // Beregner prosent for borgerlig blokk
+            tegnBlokk(borProsent, "blue"); // Tegner borgerlig blokk med blå farge
+        }
+
+        // Funksjonskall (funksjoner som kjører når programmet starter)
+        lagPartiInputs(sosialistisk, "sosialistisk");
+        lagPartiInputs(borgerlig, "borgerlig");
+        lagPartiInputs(uavhengig, "uavhengig");
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divSvar{
+            border: 1px solid black;
+            min-height: 100px;
+            width: 200px;
+            margin-top: 20px;
+        }
+        button{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oppgave 2 - Kaloriforbruk</h1>
+    <!-- Input -->
+    <select id="selAktivitet">
+        <option value="">Velg aktivitet</option>
+        <option value="814">Aerobics</option>
+        <option value="236">Bordtennis</option>
+        <option value="510">Fotball</option>
+        <option value="244">Golf</option>
+        <option value="666">Jogging</option>
+    </select>
+
+    <p>Velg intensitet:</p>
+    <div>
+        <input type="radio" name="intensitet" id="radioLav">
+        <label for="radioLav">Lav</label>
+    </div>
+    <div>
+        <input type="radio" name="intensitet" id="radioMiddels">
+        <label for="radioMiddels">Middels</label>
+    </div>
+    <div>
+        <input type="radio" name="intensitet" id="radioHøy">
+        <label for="radioHøy">Høy</label>
+    </div>
+
+    <div>
+        <p>Oppgi varighet på treningen i minutter:</p>
+        <input type="number" id="inpVarighet">
+    </div>
+
+    <button id="btnBeregn">Beregn kaloriforbruk</button>
+
+    <div id="divSvar">Svar</div>
+
+    <!-- Resultat -->
+    <script>
+        // Referanser til HTML-elementer
+        const selAktivitet = document.querySelector('#selAktivitet');
+        const radioLav = document.querySelector('#radioLav');
+        const radioMiddels = document.querySelector('#radioMiddels');
+        const radioHøy = document.querySelector('#radioHøy');
+        const inpVarighet = document.querySelector('#inpVarighet');
+        const btnBeregn = document.querySelector('#btnBeregn');
+        const divSvar = document.querySelector('#divSvar');
+
+        // Funksjoner
+        const beregnForbruk = () => {
+            let forbruk = Number(selAktivitet.value);
+            if(radioLav.checked){
+                forbruk = forbruk * 0.8;
+            } else if(radioHøy.checked){
+                forbruk = forbruk * 1.2;
+            }
+            let timer = Number(inpVarighet.value) / 60;
+            forbruk = forbruk * timer;
+            divSvar.innerHTML = `${forbruk.toFixed(2)} kcal`;
+        }
+
+
+        // Hendelser
+        btnBeregn.onclick = beregnForbruk;
+
+        // Funksjonskall (funksjoner som kjører når programmet starter)
+    </script>
+</body>
+</html>

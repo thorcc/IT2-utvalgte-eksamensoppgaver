@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Oppgave 1 - Beregne pris for heiskort i alpinanlegget</h1>
+    <!-- Input -->
+    <label for="inpAlder">Alder:</label>
+    <input type="number" id="inpAlder">
+
+    <label for="inpDager">Dager:</label>
+    <input type="number" id="inpDager">
+
+    <button id="btnBeregn">Beregn pris</button>
+
+
+    <!-- Resultat -->
+    <div id="divRes"></div>
+
+    <script>
+        // Referanser til HTML-elementer
+        const inpAlder = document.querySelector('#inpAlder');
+        const inpDager = document.querySelector('#inpDager');
+        const btnBeregn = document.querySelector('#btnBeregn');
+        const divRes = document.querySelector('#divRes');
+
+        // Funksjoner
+        const beregnPris = () => {
+            let alder = Number(inpAlder.value);
+            let dager = Number(inpDager.value);
+
+            if (dager <= 7){
+                // 7 dager eller mindre -> regn ut pris
+                if(alder > 12){
+                    // Over 12 år -> voksen
+                    let pris = 200 * dager;
+                    if(pris > 1000){
+                        // Mer enn 1000 kr og voksen -> Gi avslag
+                        let avslag = pris - 1000;
+                        divRes.innerHTML = `Pris: 1000,- Avslag: ${avslag},-`
+                    } else {
+                        // Under 1000 kr og voksen -> Normal pris
+                        divRes.innerHTML = `Pris: ${pris},-`
+                    }
+                } else if(alder >= 0) {
+                    // større enn 0 men mindre eller lik 12 -> barn
+                    let pris = 100 * dager;
+                    if (pris > 500){
+                        // Mer enn 500 kr og barn -> Gi avslag
+                        let avslag = pris - 500;
+                        divRes.innerHTML = `Pris: 500,- Avslag: ${avslag},-`
+                    } else {
+                        // Under 500 kr og barn -> Normal pris
+                        divRes.innerHTML = `Pris: ${pris},-`
+                    }
+                } else {
+                    // Bonus: alder er mindre enn 0 -> gi feilmelding
+                    divRes.innerHTML = `Alder må være 0 eller større`
+                }
+            } else{
+                // Over 7 dager -> gir feilmelding
+                divRes.innerHTML = `Maks 7 dager`
+            }
+
+        }
+
+        // Hendelser
+        btnBeregn.onclick = beregnPris;
+
+    </script>
+</body>
+</html>
